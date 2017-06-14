@@ -12,6 +12,7 @@ To create a new Json Type simple add type annotations to a python class that inh
 
 
 .. code:: python
+
     from instance.types import Schema, String, Integer, List
     
     class Car(Schema):
@@ -25,6 +26,7 @@ To create a new Json Type simple add type annotations to a python class that inh
 We even support creating a Schema using native python types and types from the python 3's typing module.
 
 .. code:: python
+
     from instance.types import Schema
     from typing import List
     
@@ -41,6 +43,7 @@ providing defaults
 instance uses class instance variable values as the default value when a None value is used for a value in json. If for instance we wanted to instantiate passangers as an empty list by default we could do this simply by adding an = [] to its definition like so.
 
 .. code:: python
+
     from instance.types import Schema
     from typing import List
     
@@ -58,6 +61,7 @@ to add custom validation simple provide a list of validators to the type annotat
 
 
 .. code:: python
+
     from instance.types import Schema, String, Integer, List
     from instance.validators import MinValidator, MaxValidator
     
@@ -72,6 +76,7 @@ to add custom validation simple provide a list of validators to the type annotat
 Custom validators can be made by creating a function or callable object like so. in the event a validation error occurs Simply throw a ValidationErrorException
 
 .. code:: python
+
     from instance.validators import ValidationError
     
     def starts_capital(val):
@@ -81,6 +86,7 @@ Custom validators can be made by creating a function or callable object like so.
 for validators that need parameters create a class and define a __call__ method like so
 
 .. code:: python
+
     from instance.validators import ValidationError
     
     class NumWords:
@@ -95,6 +101,7 @@ for validators that need parameters create a class and define a __call__ method 
 to use these new validators simply include them in the list of validators like so
 
 .. code:: python
+
     class Car(Schema):
         make: String
         model: String
@@ -110,6 +117,7 @@ Reducing the bloat
 you can imagine that for fields with large amounts of validators listing all of them can make it a lot harder to read and update. For this reason instance provides a function to define new types with a set of default validators. This also makes sharing validated types easy across multiple fields on a single Schema and even across multiple Schemas.
 
 .. code:: python
+
     from instance.types import create_validated_type(name, type, validators=[]), Schema, String, Integer, List
     
     name = create_validated_type("name", str, [starts_capital, NumWords(2)])
@@ -129,6 +137,7 @@ Nested Schema's
 Schemas can also be used inside other schema annotations and even as generics parameters like so
 
 .. code:: python
+
     from instance.types import create_validated_type(name, type, validators=[]), Schema, String, Integer, List
     
     name = create_validated_type("name", str, [starts_capital, NumWords(2)])
@@ -151,6 +160,7 @@ subclassing Schema's
 Schemas can be used as subclass in order to create more complex types
 
 .. code:: python
+
     from instance.types import create_validated_type(name, type, validators=[]), Schema, String, Integer, List
     
     name = create_validated_type("name", str, [starts_capital, NumWords(2)])
