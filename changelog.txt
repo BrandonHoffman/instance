@@ -1,0 +1,9 @@
+Version 0.0.1
+------------------------------------------------------------------------
+
+## add type validators for List, Dict, Optional, Integer, Float, Boolean, Double, Union
+## add Schema class that takes advantage of type annotations to validate json data
+## add functionality to map python.typing module to internal types used for validation
+## allow Schema types to be nested inside each other as a validatable type
+## provide initial set of validators for min, max and other common tasks
+## make Schema validation errors formate into a json compatable dictionary for returning to client 
