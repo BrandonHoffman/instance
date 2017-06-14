@@ -175,7 +175,7 @@ Schemas can also be used inside other schema annotations and even as generics pa
         model: String
         year: year
         owner: Person
-        passengers: List[Person])
+        passengers: List[Person]
 
 =====================
 subclassing Schema's
@@ -198,7 +198,7 @@ Schemas can be used as subclass in order to create more complex types
         model: String
         year: year
         owner: Person
-        passengers: List[Person])
+        passengers: List[Person]
     
     class ElectricCar(Car):
         battery_capacity: int
