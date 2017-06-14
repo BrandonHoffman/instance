@@ -53,12 +53,42 @@ instance uses class instance variable values as the default value when a None va
         year: int
         passengers: List[str] = []
 
+================================
+Converting to JSON
+=================================
+instance provides a way of converting from a json style dictionary to an object of a model by simply calling a from_json function on any schema class.
+
+.. code:: python
+
+    car = Car.from_json({
+            'make': 'Toyota',
+            'model': 'Corolla',
+            'year': 2007
+        })
+
+In the event an error is encountered during the conversion process then a ValidationException is thrown that contains a error property formatted as json.
+
+.. code:: python
+
+    try:
+        car = Car.from_json({
+                'make': 'Toyota',
+                'model': 'Corolla'
+            })
+        print(car)
+    except ValidationException as e:
+        print(e.error())
+
+will produe the following output
+
+   {'year': {'code': 1, 'message': 'None type not permitted'}} 
+
+
 ==================
 Adding Validation
 ==================
 
 to add custom validation simple provide a list of validators to the type annotation and let instance take care of the rest
-
 
 .. code:: python
 
@@ -70,8 +100,6 @@ to add custom validation simple provide a list of validators to the type annotat
         model: String
         year: Integer(validators=[MinValidator(1950), MaxValidator(2017)])
         passengers: List[String]
-
-
 
 Custom validators can be made by creating a function or callable object like so. in the event a validation error occurs Simply throw a ValidationErrorException
 
@@ -107,8 +135,6 @@ to use these new validators simply include them in the list of validators like s
         model: String
         year: Integer(validators=[MinValidator(1950), MaxValidator(2017)])
         passengers: List[String(validators=[starts_capital, NumWords(2)])
-
-
 
 ==================
 Reducing the bloat
