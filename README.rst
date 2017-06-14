@@ -10,7 +10,6 @@ How to use
 
 To create a new Json Type simple add type annotations to a python class that inherits from Schema like so
 
-
 .. code:: python
 
     from instance.types import Schema, String, Integer, List
@@ -56,6 +55,7 @@ instance uses class instance variable values as the default value when a None va
 ================================
 Converting to JSON
 =================================
+
 instance provides a way of converting from a json style dictionary to an object of a model by simply calling a from_json function on any schema class.
 
 .. code:: python
@@ -81,8 +81,7 @@ In the event an error is encountered during the conversion process then a Valida
 
 will produe the following output ::
 
-   {'year': {'code': 1, 'message': 'None type not permitted'}} 
-
+    {'year': {'code': 1, 'message': 'None type not permitted'}} 
 
 ==================
 Adding Validation
