@@ -79,7 +79,7 @@ In the event an error is encountered during the conversion process then a Valida
     except ValidationException as e:
         print(e.error())
 
-will produe the following output
+will produe the following output ::
 
    {'year': {'code': 1, 'message': 'None type not permitted'}} 
 
