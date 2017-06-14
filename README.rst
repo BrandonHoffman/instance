@@ -36,7 +36,7 @@ We even support creating a Schema using native python types and types from the p
         passengers: List[str]
 
 =====================
-providing defaults
+Providing defaults
 =====================
 
 instance uses class instance variable values as the default value when a None value is used for a value in json. If for instance we wanted to instantiate passangers as an empty list by default we could do this simply by adding an = [] to its definition like so.
@@ -52,7 +52,7 @@ instance uses class instance variable values as the default value when a None va
         year: int
         passengers: List[str] = []
 
-================================
+=================================
 Converting to JSON
 =================================
 
