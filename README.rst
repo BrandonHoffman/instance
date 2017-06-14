@@ -75,7 +75,6 @@ In the event an error is encountered during the conversion process then a Valida
                 'make': 'Toyota',
                 'model': 'Corolla'
             })
-        print(car)
     except ValidationException as e:
         print(e.error())
 
@@ -143,17 +142,17 @@ you can imagine that for fields with large amounts of validators listing all of 
 
 .. code:: python
 
-    from instance.types import create_validated_type(name, type, validators=[]), Schema, String, Integer, List
+    from instance.types import create_validated_type, Schema, String, Integer, List
     
     name = create_validated_type("name", str, [starts_capital, NumWords(2)])
-    year = create_validated_type("year", Integer, [MinValidator(1950), MaxValidator(2017)
+    year = create_validated_type("year", Integer, [MinValidator(1950), MaxValidator(2017)])
     
     class Car(Schema):
         make: String
         model: String
         year: year
         owner: name
-        passengers: List[name])
+        passengers: List[name]
 
 ==================
 Nested Schema's
@@ -163,14 +162,14 @@ Schemas can also be used inside other schema annotations and even as generics pa
 
 .. code:: python
 
-    from instance.types import create_validated_type(name, type, validators=[]), Schema, String, Integer, List
+    from instance.types import create_validated_type, Schema, String, Integer, List
     
     name = create_validated_type("name", str, [starts_capital, NumWords(2)])
     class Person(Schema):
         name: name
         age: int
     
-    year = create_validated_type("year", Integer, [MinValidator(1950), MaxValidator(2017)
+    year = create_validated_type("year", Integer, [MinValidator(1950), MaxValidator(2017)])
     class Car(Schema):
         make: String
         model: String
@@ -186,14 +185,14 @@ Schemas can be used as subclass in order to create more complex types
 
 .. code:: python
 
-    from instance.types import create_validated_type(name, type, validators=[]), Schema, String, Integer, List
+    from instance.types import create_validated_type, Schema, String, Integer, List
     
     name = create_validated_type("name", str, [starts_capital, NumWords(2)])
     class Person(Schema):
         name: name
         age: int
     
-    year = create_validated_type("year", Integer, [MinValidator(1950), MaxValidator(2017)
+    year = create_validated_type("year", Integer, [MinValidator(1950), MaxValidator(2017)])
     class Car(Schema):
         make: String
         model: String
