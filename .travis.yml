@@ -6,4 +6,7 @@ install:
   - pip install .
   - pip install -r requirements-dev.txt
 # command to run tests
-script: cd tests && py.test --cov instance
+script: 
+  - cd tests && py.test --cov instance
+after_sucess:
+  - CODECLIMATE_REPO_TOKEN=<token> codeclimate-test-reporter
