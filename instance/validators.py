@@ -61,46 +61,43 @@ class TypesValidator(Validator):
         if type(val) not in self.types:
             raise self.none_type_exception
 
-class MaxValidator(Validator):
-    def __init__(self, max, inclusive=True):
-        self.max = max
+class ValueValidator(Validator):
+    base_operator = ">"
+    base_error = "{operator} {limit}"
+    def __init__(self, limit, inclusive=True):
+        self.limit = limit
         self.inclusive = inclusive
-        operator = inclusive and ">=" or ">"
-        self.max_exceeded_exception = ValidationException(3, "value must be {operator} {max}".format(operator=operator, max=max))
+        self.operator = self.base_operator + (inclusive and "=" or "")
+        self.exception = ValidationException(6, self.base_error.format(operator=self.operator, limit=self.limit))
+
+
+class MaxValidator(ValueValidator):
+    base_error = "value must be {operator} {limit}"
 
     def __call__(self, val):
         if val > self.max or val == self.max and not self.inclusive:
-            raise self.max_exceeded_exception
+            raise self.exception
 
 class MinValidator(Validator):
-    def __init__(self, min, inclusive=True):
-        self.min = min
-        self.inclusive = inclusive
-        operator = inclusive and "<=" or "<"
-        self.min_exceeded_exception = ValidationException(4, "value must be {operator} {min}".format(operator=operator, min=min))
+    base_operator = "<"
+    base_error = "value must be {operator} {limit}"
 
     def __call__(self, val):
         if val < self.min or val == self.min and not self.inclusive:
-            raise self.min_exceeded_exception
+            raise self.exception
 
 class MaxLengthValidator(Validator):
-    def __init__(self, max, inclusive=True):
-        self.max = max
-        self.inclusive = inclusive
-        operator = inclusive and ">=" or ">"
-        self.max_exceeded_exception = ValidationException(5, "value must have length {operator} {max}".format(operator=operator, max=max))
+    base_error = "value must have length {operator} {limit}"
 
     def __call__(self, val):
         if len(val) > self.max or len(val) == self.max and not self.inclusive:
             raise self.max_exceeded_exception
+            raise self.exception
 
 class MinLengthValidator(Validator):
-    def __init__(self, min, inclusive=True):
-        self.min = min
-        self.inclusive = inclusive
-        operator = inclusive and "<=" or "<"
-        self.min_exceeded_exception = ValidationException(6, "value must have length {operator} {min}".format(operator=operator, min=min))
+    base_operator = "<"
+    base_error = "value must have length {operator} {limit}"
 
     def __call__(self, val):
         if len(val) < self.min or len(val) == self.min and not self.inclusive:
-            raise self.min_exceeded_exception
+            raise self.exception
