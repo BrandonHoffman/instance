@@ -7,4 +7,4 @@ install:
   - pip install -r requirements-dev.txt
 # command to run tests
 script: cd tests && py.test --cov instance
-after_sucess: codeclimate-test-reporter
+after_success: codeclimate-test-reporter
