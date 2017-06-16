@@ -6,4 +6,4 @@ install:
   - pip install .
   - pip install -r requirements-dev.txt
 # command to run tests
-script: pytest --cov instance
+script: cd tests && py.test --cov instance
