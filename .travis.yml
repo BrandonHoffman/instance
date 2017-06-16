@@ -9,4 +9,4 @@ install:
 script: 
   - cd tests && py.test --cov instance
 after_sucess:
-  - CODECLIMATE_REPO_TOKEN=<token> codeclimate-test-reporter
+  - CODECLIMATE_REPO_TOKEN=1c45057f2d4af6b4078f4d3f4a889029bbe476d560f0e08b6749963102bae094 codeclimate-test-reporter
