@@ -2,6 +2,18 @@
 Instance
 ***************
 
+.. image:: https://badges.gitter.im/python3-instance/Lobby.svg
+   :alt: Join the chat at https://gitter.im/python3-instance/Lobby
+   :target: https://gitter.im/python3-instance/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
+.. image:: https://codeclimate.com/github/BrandonHoffman/instance/badges/coverage.svg
+   :target: https://codeclimate.com/github/BrandonHoffman/instance/coverage
+   :alt: Test Coverage
+   
+.. image:: https://codeclimate.com/github/BrandonHoffman/instance/badges/gpa.svg
+   :target: https://codeclimate.com/github/BrandonHoffman/instance
+   :alt: Code Climate
+   
 instance aims to provide a simple way to create json schemas to be used for validation purposed in python3.
 
 ============
