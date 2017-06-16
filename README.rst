@@ -2,6 +2,14 @@
 Instance
 ***************
 
+.. image:: https://codeclimate.com/github/BrandonHoffman/instance/badges/coverage.svg
+   :target: https://codeclimate.com/github/BrandonHoffman/instance/coverage
+   :alt: Test Coverage
+   
+.. image:: https://codeclimate.com/github/BrandonHoffman/instance/badges/gpa.svg
+   :target: https://codeclimate.com/github/BrandonHoffman/instance
+   :alt: Code Climate
+   
 instance aims to provide a simple way to create json schemas to be used for validation purposed in python3.
 
 ============
