@@ -36,15 +36,17 @@ def map_type(generic):
         return func
     return decorator
 
+def new_validators(original_class, new_type):
+    return hasattr(original_class, "validators") and original_class.validators or new_type.validators
+    
 def mapped_type(original):
-    origin = getattr(original, "__origin__", None)
     if getattr(original, "is_schema", False):
         return original.from_json
     elif hasattr(original, "__args__") and original.__args__:
         original_class = original.__origin__
         new = generics_map.get(original_class, original_class)
-        old_validators = hasattr(original_class, "validators") and original_class.validators or new.validators
-        new = new.__class__[original.__args__](validators=old_validators)
+        new_validators_list = new_validators(original_class, new)
+        new = new.__class__[original.__args__](validators=new_validators_list)
         return new
     else:
         new = generics_map.get(original, original)
