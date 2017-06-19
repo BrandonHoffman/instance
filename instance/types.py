@@ -358,7 +358,4 @@ class Schema(Genericable, metaclass=SchemaMeta):
                 json[key] = val
         return json
 
-#TODO: verify all defaults are of the proper type before initialization
-#TODO: in schema meta make sure all properties are defaulted to None so they appear in the object
-
 __all__ = ['Any', 'Optional', 'Integer', 'Double', 'String', 'Boolean', 'List', 'Dictionary', 'Union', 'create_validated_type', 'mapped_type', 'Schema']
