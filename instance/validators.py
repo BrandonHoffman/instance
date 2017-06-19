@@ -91,7 +91,6 @@ class MaxLengthValidator(ValueValidator):
 
     def __call__(self, val):
         if len(val) > self.limit or len(val) == self.limit and not self.inclusive:
-            raise self.max_exceeded_exception
             raise self.exception
 
 class MinLengthValidator(ValueValidator):
