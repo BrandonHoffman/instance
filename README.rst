@@ -2,9 +2,9 @@
 Instance
 ***************
 
-.. image:: https://badges.gitter.im/python3-instance/Lobby.svg
-   :alt: Join the chat at https://gitter.im/python3-instance/Lobby
-   :target: https://gitter.im/python3-instance/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+.. image:: https://travis-ci.org/BrandonHoffman/instance.svg?branch=master
+   :alt: build status
+   :target: https://travis-ci.org/BrandonHoffman/instance
 
 .. image:: https://codeclimate.com/github/BrandonHoffman/instance/badges/coverage.svg
    :target: https://codeclimate.com/github/BrandonHoffman/instance/coverage
@@ -13,6 +13,10 @@ Instance
 .. image:: https://codeclimate.com/github/BrandonHoffman/instance/badges/gpa.svg
    :target: https://codeclimate.com/github/BrandonHoffman/instance
    :alt: Code Climate
+  
+.. image:: https://badges.gitter.im/python3-instance/Lobby.svg
+   :alt: Join the chat at https://gitter.im/python3-instance/Lobby
+   :target: https://gitter.im/python3-instance/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
    
 instance aims to provide a simple way to create json schemas to be used for validation purposed in python3.
 
