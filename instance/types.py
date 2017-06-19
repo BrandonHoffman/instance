@@ -36,7 +36,7 @@ def map_type(generic):
         return func
     return decorator
 
-def new_validators(original_class, new_type):
+def merge_validators(original_class, new_type):
     return hasattr(original_class, "validators") and original_class.validators or new_type.validators
     
 def mapped_type(original):
@@ -45,7 +45,7 @@ def mapped_type(original):
     elif hasattr(original, "__args__") and original.__args__:
         original_class = original.__origin__
         new = generics_map.get(original_class, original_class)
-        new_validators_list = new_validators(original_class, new)
+        new_validators_list = merge_validators(original_class, new)
         new = new.__class__[original.__args__](validators=new_validators_list)
         return new
     else:
@@ -283,6 +283,41 @@ class SchemaType(Type):
         return "<SchemaType[{schema}]>".format(schema=self.schema) 
 
 class SchemaMeta(TypeMeta):
+    def __merge_annotations__(cls, annotations, parents):
+        parents_annotations = {}
+        for parent in parents:
+            parent_annotations = getattr(parent, "__annotations__", {})
+            parents_annotations.update(parent_annotations)
+
+        parents_annotations.update(annotations)
+
+        return parents_annotations or annotations
+
+    def __convert_arguments__(cls, old_annotation_arguments, types_map):
+        new_annotation_arguments = []
+        for old_annotation_argument in old_annotation_arguments:
+            new_annotation_argument = types_map.get(old_annotation_argument, old_annotation_argument)
+            new_annotation_arguments.append(new_annotation_argument)
+        return new_annotation_arguments
+
+    def __convert_annotation_type__(cls, annotation_type, types_map):
+        new_annotation = mapped_type(annotation_type)
+        old_annotation_arguments = getattr(new_annotation, "__args__", []) or []
+        new_annotation_arguments = cls.__convert_arguments__(cls, old_annotation_arguments, types_map)
+
+        new_annotation_arguments = tuple(new_annotation_arguments)
+        if new_annotation_arguments and new_annotation_arguments != old_annotation_arguments:
+            validators = merge_validators(annotation_type, new_annotation)
+            new_annotation = new_annotation.__origin__[new_annotation_arguments](validators=validators)
+
+        return new_annotation
+
+    def __get_annotation_type__(cls, annotation_type, types_map):
+        if annotation_type.__class__ == typing.TypeVar:
+            return types_map.get(annotation_type, annotation_type)
+        else:    
+            return cls.__convert_annotation_type__(cls, annotation_type, types_map)
+
     def __new__(cls, name, parents, dct, **kwargs):
         args = kwargs.get("args", [])
         parameters = dct.get("__parameters__", [])
@@ -302,31 +337,10 @@ class SchemaMeta(TypeMeta):
         annotations = dict(dct.get("__annotations__", {}))
 
         for annotation_name, annotation_type in annotations.items():
-            if annotation_type.__class__ == typing.TypeVar:
-                annotations[annotation_name] = types_map.get(annotation_type, annotation_type)
-            else:    
-                new_annotation = mapped_type(annotation_type)
-                old_annotation_arguments = getattr(new_annotation, "__args__", []) or []
-                new_annotation_arguments = []
-                for old_annotation_argument in old_annotation_arguments:
-                    new_annotation_argument = types_map.get(old_annotation_argument, old_annotation_argument)
-                    new_annotation_arguments.append(new_annotation_argument)
-                new_annotation_arguments = tuple(new_annotation_arguments)
-                if new_annotation_arguments and new_annotation_arguments != old_annotation_arguments:
-                    validators = hasattr(annotation_type, "validators") and annotation_type.validators or new_annotation.validators
-                    new_annotation = new_annotation.__origin__[new_annotation_arguments](validators=validators)
-                
-                annotations[annotation_name] = new_annotation
+            annotations[annotation_name] = cls.__get_annotation_type__(cls, annotation_type, types_map)
+        
 
-        parents_annotations = {}
-        for parent in parents:
-            parent_annotations = getattr(parent, "__annotations__", {})
-            parents_annotations.update(parent_annotations)
-
-        parents_annotations.update(annotations)
-
-        if parents_annotations:
-            dct["__annotations__"] = parents_annotations
+        dct["__annotations__"] = cls.__merge_annotations__(cls, annotations, parents)
 
         obj = super(SchemaMeta, cls).__new__(cls, name, parents, dct, **kwargs)
         obj.from_json = SchemaType(obj)
