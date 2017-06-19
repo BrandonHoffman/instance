@@ -333,18 +333,20 @@ class SchemaMeta(TypeMeta):
 
 class Schema(Genericable, metaclass=SchemaMeta):
     is_schema = True
-    def validate(self, validate_keys=True):
+
+    def validate(self):
         errors = {}
-        if(validate_keys):
-            for (key, type) in self.__annotations__.items():
-                val = getattr(self, key, None)
-                try:
-                    if(getattr(val, "is_schema", False)):
-                        val.validate()
-                    else:
-                        type(val)
-                except ValidationException as e:
-                    errors[key] = e.error()
+        print(self.__annotations__)
+        for (key, type) in self.__annotations__.items():
+            val = getattr(self, key, None)
+            try:
+                if(getattr(val, "is_schema", False)):
+                    val.validate()
+                else:
+                    type(val)
+            except ValidationException as e:
+                errors[key] = e.error()
+
         if errors:
             raise SchemaValidationException(errors)
 

@@ -75,29 +75,29 @@ class MaxValidator(ValueValidator):
     base_error = "value must be {operator} {limit}"
 
     def __call__(self, val):
-        if val > self.max or val == self.max and not self.inclusive:
+        if val > self.limit or val == self.limit and not self.inclusive:
             raise self.exception
 
-class MinValidator(Validator):
+class MinValidator(ValueValidator):
     base_operator = "<"
     base_error = "value must be {operator} {limit}"
 
     def __call__(self, val):
-        if val < self.min or val == self.min and not self.inclusive:
+        if val < self.limit or val == self.limit and not self.inclusive:
             raise self.exception
 
-class MaxLengthValidator(Validator):
+class MaxLengthValidator(ValueValidator):
     base_error = "value must have length {operator} {limit}"
 
     def __call__(self, val):
-        if len(val) > self.max or len(val) == self.max and not self.inclusive:
+        if len(val) > self.limit or len(val) == self.limit and not self.inclusive:
             raise self.max_exceeded_exception
             raise self.exception
 
-class MinLengthValidator(Validator):
+class MinLengthValidator(ValueValidator):
     base_operator = "<"
     base_error = "value must have length {operator} {limit}"
 
     def __call__(self, val):
-        if len(val) < self.min or len(val) == self.min and not self.inclusive:
+        if len(val) < self.limit or len(val) == self.limit and not self.inclusive:
             raise self.exception
